@@ -3,6 +3,10 @@ package com.ikki.tools;
 import com.ikki.tools.exception.UidGenerateException;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.concurrent.TimeUnit;
 
 public class DefaultUidGenerator implements UidGenerater {
@@ -40,7 +44,7 @@ public class DefaultUidGenerator implements UidGenerater {
 
         if(currentSecond == lastSecond) {
             sequence = (sequence + 1) & bitsAllocator.getMaxSequence();
-            //
+            // Exceed the max sequence, we wait the next second to generate uid
             if(sequence == 0 ) {
                 currentSecond = getNextSecond(lastSecond);
             }
@@ -69,7 +73,11 @@ public class DefaultUidGenerator implements UidGenerater {
     }
 
     public void setEpochStr(String epochStr) {
-        // TODO
+        if(!(null== epochStr || 0 ==epochStr.length())){
+            this.epochStr = epochStr;
+            this. epochSeconds = LocalDateTime.parse(epochStr,DateTimeFormatter.ISO_LOCAL_DATE)
+                    .toEpochSecond(ZoneOffset.UTC);
+        }
     }
 
 
