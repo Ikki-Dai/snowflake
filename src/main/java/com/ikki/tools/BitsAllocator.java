@@ -16,7 +16,6 @@
 package com.ikki.tools;
 
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 
 /**
@@ -73,7 +72,8 @@ public class BitsAllocator {
 
         /**
          * initialize max value
-         *    ~(-128) == 127
+         * etc:  ~(-128) == 127
+         *       ~ 1010 = 0101
          */
         this.maxDeltaSeconds = ~(-1L << timestampBits);
         this.maxWorkerId = ~(-1L << workerIdBits);
@@ -87,6 +87,12 @@ public class BitsAllocator {
     /**
      * Allocate bits for UID according to delta seconds & workerId & sequence<br>
      * <b>Note that: </b>The highest bit will always be 0 for sign
+     *
+     *          11110000
+     *      |   00001111
+     *   -----------------
+     *          11111111
+     *
      *
      * @param deltaSeconds
      * @param workerId

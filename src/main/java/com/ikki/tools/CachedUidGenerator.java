@@ -1,6 +1,6 @@
 package com.ikki.tools;
 
-public class CachedUidGenerator implements UidGenerater {
+public class CachedUidGenerator extends AbstractGenerator {
 
 
     @Override
